@@ -1,0 +1,110 @@
+[entidade]
+nome=VEICULO
+tipo=PADRAO
+[atributos]
+num_veiculo=inteiro,5,nao,nao,sim,nao
+placa=caracter,7,nao,nao,nao,sim
+marca=caracter,20,nao,nao,nao,nao
+ano_fabricacao=inteiro,4,nao,nao,nao,nao
+ano_modelo=inteiro,4,nao,nao,nao,nao
+
+[entidade]
+nome=MOTORISTA
+tipo=PADRAO
+[atributos]
+num_motorista=inteiro,5,nao,nao,sim,nao
+data_nascimento=data, ,nao,nao,nao,nao
+sexo=caracter,1,nao,nao,nao,nao
+-- Atributo Composto: Endereco
+end_logradouro=caracter,50,nao,nao,nao,nao
+end_numero=caracter,10,nao,nao,nao,nao
+end_bairro=caracter,30,nao,nao,nao,nao
+end_cidade=caracter,30,nao,nao,nao,nao
+end_cep=caracter,8,nao,nao,nao,nao
+-- Atributo Composto: Telefone
+tel_ddd=inteiro,3,nao,nao,nao,nao
+tel_numero=inteiro,9,nao,nao,nao,nao
+
+[entidade]
+nome=CARTEIRA_HABILITACAO
+tipo=PADRAO
+[atributos]
+num_motorista=inteiro,5,nao,sim,sim,nao ; PK/FK
+numero_CNH=caracter,12,nao,nao,nao,sim
+categoria_CNH=caracter,2,nao,nao,nao,nao
+data_emissao=data, ,nao,nao,nao,nao
+data_validade=data, ,nao,nao,nao,nao
+
+[entidade]
+nome=CHAMADO
+tipo=PADRAO
+[atributos]
+num_chamado=inteiro,5,nao,nao,sim,nao
+data_chamado=data, ,nao,nao,nao,nao
+local_origem=caracter,50,nao,nao,nao,nao
+local_destino=caracter,50,nao,nao,nao,nao
+-- Atributo Composto: Telefone de Contato
+tel\_contato\_ddd=inteiro,3,nao,nao,nao,nao
+tel\_contato\_numero=inteiro,9,nao,nao,nao,nao
+
+[entidade]
+nome=BOLETO
+tipo=PADRAO
+[atributos]
+num_boleto=inteiro,5,nao,nao,sim,nao
+empresa_conveniada=caracter,50,nao,nao,nao,nao
+
+[relacionamento]
+nome=INDICA
+cardinalidade=1:N
+auto_relacionamento=nao
+entidade1=VEICULO
+card1=0:1
+entidade2=CHAMADO
+card2=1:N
+[atributos]
+num_veiculo=inteiro,5,sim,nao,nao,nao ; FK em CHAMADO
+
+[relacionamento]
+nome=DIRIGE
+cardinalidade=1:N
+auto_relacionamento=nao
+entidade1=VEICULO
+card1=0:N
+entidade2=MOTORISTA
+card2=1:1
+[atributos]
+num_veiculo=inteiro,5,sim,nao,nao,nao ; FK em MOTORISTA
+
+[relacionamento]
+nome=POSSUI
+cardinalidade=1:1
+auto_relacionamento=nao
+entidade1=MOTORISTA
+card1=1:1
+entidade2=CARTEIRA_HABILITACAO
+card2=1:1
+[atributos]
+num_motorista=inteiro,5,sim,nao,nao,nao ; PK/FK em CARTEIRA_HABILITACAO
+
+[relacionamento]
+nome=UTILIZA
+cardinalidade=1:1
+auto_relacionamento=nao
+entidade1=CHAMADO
+card1=1:1
+entidade2=BOLETO
+card2=1:1
+[atributos]
+num_chamado=inteiro,5,sim,nao,nao,nao ; FK em BOLETO
+
+[relacionamento]
+nome=RECEBE
+cardinalidade=1:1
+auto_relacionamento=nao
+entidade1=BOLETO
+card1=1:1
+entidade2=MOTORISTA
+card2=1:1
+[atributos]
+num_boleto=inteiro,5,sim,nao,nao,nao ; FK em MOTORISTA
